@@ -16,3 +16,7 @@ npm start or yarn start
 或
 
 直接下载
+
+[release](https://github.com/LittleBadBad/schedule-manager/releases/download/release/schedule-manager.zip)
+
+下载完成后解压，使用浏览器打开`index.html`
