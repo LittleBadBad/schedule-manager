@@ -482,7 +482,7 @@ function App() {
                         <Typography>可以</Typography>
                     </Stack>
                     <Stack direction="row">
-                        <CircleIcon htmlColor={LIKE_COLOR[Like.like]}/>
+                        <CircleIcon htmlColor={LIKE_COLOR[Like.little]}/>
                         <Typography>较可以</Typography>
                     </Stack>
                     <Stack direction="row">
