@@ -38,15 +38,16 @@ export default function AddVacant(props) {
     const {openTip} = useContext(Global)
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const _days = decodeURI(searchParams.get("days")) || DATES.join(","), days = _days.split(",")
-    const _intervals = decodeURI(searchParams.get("intervals")) || INTERVALS.join(","),
-        intervals = _intervals.split(",")
-    const _vacant = decodeURI(searchParams.get("vacant")) || new Array(days.length * intervals.length).fill(Like.like).join(",")
+    const _days = searchParams.get("days") || DATES.join(","), days = decodeURI(_days).split(",")
+    const _intervals = searchParams.get("intervals") || INTERVALS.join(","),
+        intervals = decodeURI(_intervals).split(",")
+    const _vacant = searchParams.get("vacant") || new Array(days.length * intervals.length).fill(Like.like).join(",")
+    const _name = searchParams.get("name") || ""
 
-    const initTemplate = _vacant.split(",").map(v => parseInt(v))
+    const initTemplate = decodeURI(_vacant).split(",").map(v => parseInt(v))
 
-    const [name, setName] = useState(decodeURI(searchParams.get("name")) || "")
-    const [maxDuty, setMaxDuty] = useState(parseInt(decodeURI(searchParams.get('maxDuty'))) || 3)
+    const [name, setName] = useState(decodeURI(_name))
+    const [maxDuty, setMaxDuty] = useState(parseInt(searchParams.get('maxDuty')) || 3)
     const [vacant, setVacant] = useState(initTemplate)
 
     const changeVacantValue = (name: "name" | "maxDuty") => (event, newV) => {

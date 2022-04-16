@@ -57,19 +57,19 @@ export default function SetChart(props) {
     const {openTip} = useContext(Global)
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const _days = decodeURI(searchParams.get("days")) || DATES.join(",")
-    const _intervals = decodeURI(searchParams.get("intervals")) || INTERVALS.join(",")
+    const _days = searchParams.get("days") || DATES.join(",")
+    const _intervals = searchParams.get("intervals") || INTERVALS.join(",")
 
 
     const [createDutyOpen, setCreateDutyOpen] = useState(false)
     const [interval, setInterval] = useState<{ start: Date | null, end: Date | null }>({start: null, end: null});
-    const [days, setDays] = useState(_days.split(","))
-    const [intervals, setIntervals] = useState(_intervals.split(","))
+    const [days, setDays] = useState(decodeURI(_days).split(","))
+    const [intervals, setIntervals] = useState(decodeURI(_intervals).split(","))
     const [perSlot, setPerSlot] = useState(1)
 
-    const _template = decodeURI(searchParams.get("template")) || toTemplate(days, intervals, perSlot).join(",")
+    const _template = searchParams.get("template") || toTemplate(days, intervals, perSlot).join(",")
 
-    const [template, setTemplate] = useState(_template.split(",").map(v => parseInt(v)))
+    const [template, setTemplate] = useState(decodeURI(_template).split(",").map(v => parseInt(v)))
     const [anchor, setAnchor] = useState([0, 0])
     const [changeSingle, setChangeSingleOpen] = useState(false)
 

@@ -22,11 +22,11 @@ export default function Result(props) {
     const {openTip} = useContext(Global)
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const _days = decodeURI(searchParams.get("days")) || DATES.join(","), days = _days.split(",")
-    const _intervals = decodeURI(searchParams.get("intervals")) || INTERVALS.join(","),
-        intervals = _intervals.split(",")
-    const _result = decodeURI(searchParams.get("result")) || "",
-        result = _result && _result !== "" ? JSON.parse(_result) : []
+    const _days = searchParams.get("days") || DATES.join(","), days = decodeURI(_days).split(",")
+    const _intervals = searchParams.get("intervals") || INTERVALS.join(","),
+        intervals = decodeURI(_intervals).split(",")
+    const _result = searchParams.get("result") || "",
+        result = _result && _result !== "" ? JSON.parse(decodeURI(_result)) : []
 
     const copyRes = () => {
         copy(result.map(v => v.length ? v : "没人").join(",")).then(r => {
