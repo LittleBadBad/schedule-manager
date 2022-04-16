@@ -32,11 +32,9 @@ import {
     Paper,
     Select,
     Stack,
-    styled,
     Table,
     TableBody,
     TableCell,
-    tableCellClasses,
     TableContainer,
     TableHead,
     TableRow,
@@ -44,13 +42,12 @@ import {
     Typography
 } from "@mui/material";
 import {LocalizationProvider, MobileTimePicker} from "@mui/lab";
-import {DutyChart, Like, User, Vacant} from "./models";
-import {checkVacant, scheduling} from "./dutyShedule";
+import {DutyChart, Like, User, Vacant} from "../models";
+import {checkVacant, scheduling} from "../dutyShedule";
+import StyledTableCell from '../components/styledTableCell';
+import {LIKE_COLOR, storeLocal} from "../utils";
+import {DATES, DUTY_CHART, INTERVALS, MAX_NUM_NEED, USERS, VACANTS} from '../env';
 
-const DATES = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
-const INTERVALS = ["8:00-12:30", "14:00-18:00", "19:00-23:30"]
-const MAX_NUM_NEED = 3
-const LIKE_COLOR = ["#cfe8fc", "#d7acac", "#cb1212"]
 
 // const user1: User = {id: 1, username: "zcy1"}
 // const user2: User = {id: 2, username: "zcy2"}
@@ -58,12 +55,6 @@ const LIKE_COLOR = ["#cfe8fc", "#d7acac", "#cb1212"]
 // const user4: User = {id: 4, username: "zcy4"}
 // const user5: User = {id: 5, username: "zcy5"}
 
-const DUTY_CHART = localStorage.dutyChart ? JSON.parse(localStorage.dutyChart) : new DutyChart()
-const VACANTS = localStorage.vacants ? JSON.parse(localStorage.vacants) : []
-const USERS = localStorage.users ? JSON.parse(localStorage.users) : []
-const storeLocal = (v: {}, name) => {
-    localStorage[name] = JSON.stringify(v)
-}
 
 interface DiaAction {
     handle?(): void
@@ -108,17 +99,7 @@ function AlertModal(props: AlertModalProps) {
     </Dialog>
 }
 
-function App() {
-    const StyledTableCell = styled(TableCell)(({theme}) => ({
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.common.white,
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-        },
-    }));
-
+function Index() {
     const [dutyChart, setDutyChart] = React.useState<DutyChart>(DUTY_CHART)
     const [createDutyOpen, setCreateDutyOpen] = React.useState(false)
     const [dates, setDates] = React.useState(new Array(...DATES))
@@ -308,7 +289,7 @@ function App() {
         })
     }
 
-    return <Container component="main" maxWidth="xl" style={{textAlign: "center"}}>
+    return <Container component={Stack} maxWidth="lg" padding={2}>
         {dutyChart.days.length === 0 || dutyChart.interval.length === 0 ?
             <Card component={Button} fullWidth style={{minHeight: 345, marginTop: 100}}
                   onClick={setCreateDuty(true)}>
@@ -373,7 +354,7 @@ function App() {
                                                 {Array.isArray(v2) ?
                                                     v2.map((v3, k) => <Typography
                                                         key={k}>{v3.username}</Typography>) :
-                                                    <Typography key={j} component={IconButton}
+                                                    <Typography key={j}
                                                                 onClick={clickSingleBlock(i / dutyChart.days.length, j)}>{v2}</Typography>}
                                             </TableCell>)}
                                     </TableRow> : null)}
@@ -491,7 +472,7 @@ function App() {
                     </Stack>
                 </Stack>
                 <TableContainer component={Paper}>
-                    <Table sx={{minWidth: 400}} size="small">
+                    <Table size="small">
                         <TableHead>
                             <TableRow>
                                 <StyledTableCell/>
@@ -507,8 +488,10 @@ function App() {
                                             <Typography>{dutyChart.interval[i / dutyChart.days.length]}</Typography>
                                         </TableCell>
                                         {arr.slice(i, i + dutyChart.days.length).map((v2, j) =>
-                                            <TableCell key={j} onClick={changeBlockLike(i / dutyChart.days.length, j)}>
-                                                <Box sx={{backgroundColor: LIKE_COLOR[v2], height: 30}}/>
+                                            <TableCell key={j}
+                                                       sx={{padding: '5px 5px'}}
+                                                       onClick={changeBlockLike(i / dutyChart.days.length, j)}>
+                                                <Box sx={{backgroundColor: LIKE_COLOR[v2], height: 20}}/>
                                             </TableCell>)}
                                     </TableRow>
                                 }
@@ -532,4 +515,4 @@ function App() {
     </Container>
 }
 
-export default App;
+export default Index;

@@ -1,6 +1,6 @@
 import {DutyChart, Like, Vacant} from "./models";
 import _ from "lodash/fp";
-import {multiMunkres} from "./multiMunkres";
+import {multiMunkres} from "multi-munkres";
 
 export function checkVacant(dutyChart: DutyChart, v: Vacant, defaultV: Like = Like.like): Vacant {
     const length = dutyChart.days.length * dutyChart.interval.length
@@ -18,5 +18,6 @@ export function scheduling(chart: DutyChart, vs: Array<Vacant>): DutyChart {
     const vacants = vs.map(v => checkVacant(chart2, v))
     const resChart = multiMunkres(chart2.numNeed, vacants.map(v => v.vacant), vacants.map(v => v.maxDuty))
     chart2.chart = resChart.map(v => v.map(v1 => vacants[v1].user))
+    console.log(chart2.chart.map(v=>v.map(v1=>v1.username)))
     return chart2
 }

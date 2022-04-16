@@ -1,15 +1,69 @@
-import React from 'react';
+import React, {lazy, StrictMode, Suspense} from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'date-fns'
+import {HashRouter} from 'react-router-dom';
 import {CssBaseline} from "@mui/material";
+import {useRoutes} from "react-router";
+import Master from "global-component";
+
+const Index = lazy(() => import ('./pages'));
+const AddVacant = lazy(() => import   ("./pages/addVacant"));
+const Result = lazy(() => import ("./pages/result"));
+const SetChart = lazy(() => import( "./pages/setChart"));
+
+
+const routes = [
+    {
+        path: '',
+        element: <Suspense fallback={<>...</>}>
+            <Index/>
+        </Suspense>
+    },
+    {
+        path: '/',
+        element: <Suspense fallback={<>...</>}>
+            <Index/>
+        </Suspense>
+    },
+    {
+        path: 'index',
+        element: <Suspense fallback={<>...</>}>
+            <Index/>
+        </Suspense>
+    },
+    {
+        path: 'vacant',
+        element: <Suspense fallback={<>...</>}>
+            <AddVacant/>
+        </Suspense>
+    },
+    {
+        path: 'result',
+        element: <Suspense fallback={<>...</>}>
+            <Result/>
+        </Suspense>
+    },
+    {
+        path: 'setChart',
+        element: <Suspense fallback={<>...</>}>
+            <SetChart/>
+        </Suspense>
+    }
+];
+
+function Routes() {
+    return useRoutes(routes)
+}
 
 ReactDOM.render(
-    <React.StrictMode>
+    <StrictMode>
         <CssBaseline/>
-        <App/>
-    </React.StrictMode>,
+        <HashRouter>
+            <Master>
+                <Routes/>
+            </Master>
+        </HashRouter>
+    </StrictMode>,
     document.getElementById('root')
 );
 
