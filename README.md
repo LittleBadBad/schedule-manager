@@ -19,4 +19,4 @@ npm start or yarn start
 [release](https://github.com/LittleBadBad/schedule-manager/releases/download/release/schedule-manager.zip)
 下载完成后解压，使用浏览器打开`index.html`
 
-[示例地址](https://hicug.cn)
+[示例地址](https://hicug.cn/paiban)
